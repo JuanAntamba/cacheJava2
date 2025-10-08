@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Servicio REST - Proxy con Caché</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: #f2f2f2;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+        }
+
+        h1 {
+          color: #333;
+        }
+
+        input {
+          padding: 10px;
+          font-size: 16px;
+          margin: 10px;
+          border: 1px solid #aaa;
+          border-radius: 5px;
+        }
+
+        button {
+          padding: 10px 20px;
+          font-size: 16px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        button:hover {
+          background-color: #45a049;
+        }
+
+        p {
+          margin-top: 20px;
+          font-size: 18px;
+          color: #222;
+        }
+    </style>
+</head>
+<body>
+<h1>Prueba del Servicio REST con Proxy y Caché</h1>
+
+<input type="text" id="nameInput" placeholder="Escribe tu nombre">
+<button onclick="sendRequest()">Enviar</button>
+
+<p id="responseText"></p>
+
+<script>
+    async function sendRequest() {
+      const name = document.getElementById("nameInput").value;
+      const responseText = document.getElementById("responseText");
+
+      if (!name.trim()) {
+        responseText.textContent = "Por favor ingresa un nombre.";
+        return;
+      }
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/hello/${name}`);
+        if (!response.ok) {
+          throw new Error("Error al comunicarse con el backend");
+        }
+        const data = await response.text();
+        responseText.textContent = data;
+      } catch (error) {
+        responseText.textContent = "Error: " + error.message;
+      }
+    }
+</script>
+</body>
+</html>
